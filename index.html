@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlpineJs</title>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+</head>
+<body>
+    <h2>Alpinejs</h2>
+
+        <div x-data="{ tab: 'home' }">
+            <button :class="{ 'active': tab === 'home' }" @click="tab = 'home'">Home</button>
+            <button :class="{ 'active': tab === 'about' }" @click="tab = 'about'">About</button>
+        
+            <div class="bg-gray-400 p-5" x-show="tab === 'home'">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit vel odio dolores illum maxime eos voluptatibus alias, totam, officiis maiores recusandae placeat minima repudiandae itaque adipisci quasi dolorem suscipit deleniti?</div>
+            <div class="bg-gray-400 p-5" x-show="tab === 'about'">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem modi facere facilis quisquam dicta laboriosam placeat perferendis eum velit vel maxime fugit sequi dolore, animi inventore itaque vero natus exercitationem?</div>
+        </div>
+
+        <div x-data="{ open: false }">
+            <button class="bg-gray-400 border-black p-2" 
+                    @click="open = true">Open Dropdown</button>
+        
+            <ul
+                x-show="open"
+                @click.away="open = false"
+            >
+                Dropdown Body
+            </ul>
+        </div>
+        
+        <div class="flex justify-between item-center mb-3" 
+             x-data="loadUserData()">
+            <input class="block bg-gray-200 focus:shadow rounded-lg p-2" type="search" x-model="querySearch">
+            <p>Sedang mencari <span x-text="querySearch"></span></p>
+
+            
+                <template x-for="user in filteredUsers":key="user">
+                    <li class="shadow p-2 m-2 rounded">
+                        <span x-text="user.id"></span>
+                        <span x-text="user.username"></span>
+                    </li>
+                </template>
+        </div>
+
+        <script>
+        function loadUserData() {
+            return {
+                querySearch : "",
+                users : userData,
+
+                get filteredUsers() {
+                    if(this.querySearch == '')
+                        return this.users
+
+                    return this.users.filter((user) => {
+                        return user.username.includes(this.querySearch)
+                    })
+                }
+            }
+        }
+
+            let userData = [
+                   {
+                    id:"1",
+                    username:"hilmanski"
+                   },
+                   {
+                    id:"2",
+                    username:"ahanafi"
+                   },
+                   {
+                    id:"3",
+                    username:"nel09"
+                   },
+                   {
+                    id:"4",
+                    username:"kikiding"
+                   },
+                ]
+            </script>
+</body>
+</html>
